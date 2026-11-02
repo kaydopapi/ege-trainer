@@ -31,7 +31,9 @@ export default function SingleWordTrainer({
   const [shuffled, setShuffled] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
-  const [autoAdvance, setAutoAdvance] = useState(true);
+  // Keep the result visible. The learner can move on explicitly; this also
+  // prevents a correct answer from disappearing before the feedback is read.
+  const [autoAdvance, setAutoAdvance] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
   const timerRef = useRef(null);

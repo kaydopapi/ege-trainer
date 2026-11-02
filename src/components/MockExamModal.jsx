@@ -62,6 +62,19 @@ export default function MockExamModal({ isOpen, onClose, onFinishExam }) {
 
   const current = examTasks[currentIdx];
 
+  // The modal renders once before the initialization effect finishes. Keep
+  // that first render safe instead of dereferencing `current` and blanking
+  // the whole React tree.
+  if (!current) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-2xl text-center">
+          <p className="text-sm font-semibold text-slate-700">Подготавливаем пробный вариант…</p>
+        </div>
+      </div>
+    );
+  }
+
   const handleAnswerChange = (val) => {
     sounds.playClick();
     setUserAnswers({ ...userAnswers, [currentIdx]: val });
