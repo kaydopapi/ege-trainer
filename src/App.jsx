@@ -19,7 +19,7 @@ import MockExamModal from './components/MockExamModal';
 import DictionarySearchModal from './components/DictionarySearchModal';
 import MistakesNotebook from './components/MistakesNotebook';
 
-import { GraduationCap, BookMarked, Search, Layers, FileText } from 'lucide-react';
+import { GraduationCap, BookMarked, Search, Layers, FileText, ArrowUpRight, BookOpenCheck, PenLine, MessageCircle } from 'lucide-react';
 
 const CATEGORIES = [
   { id: 'all', title: 'Все задания' },
@@ -48,6 +48,33 @@ const TASK_LIST = [
   { id: 'task19', category: 'punctuation', num: '№19', title: 'СПП', color: 'from-emerald-500 to-teal-500' },
   { id: 'task20', category: 'punctuation', num: '№20', title: 'Стык союзов', color: 'from-teal-500 to-blue-500' },
   { id: 'task21', category: 'punctuation', num: '№21', title: 'Анализ знаков', color: 'from-blue-500 to-indigo-500' }
+];
+
+const THEORY_GROUPS = [
+  {
+    id: 'norms',
+    eyebrow: '№4–8',
+    title: 'Нормы языка',
+    text: 'Ударения, паронимы, лексика, формы слов и грамматические ошибки.',
+    icon: MessageCircle,
+    accent: 'rose'
+  },
+  {
+    id: 'orthography',
+    eyebrow: '№9–15',
+    title: 'Орфография',
+    text: 'Корни, приставки, суффиксы, НЕ/НИ и написание Н и НН.',
+    icon: PenLine,
+    accent: 'amber'
+  },
+  {
+    id: 'punctuation',
+    eyebrow: '№16–21',
+    title: 'Пунктуация',
+    text: 'Обороты, сложные предложения, вводные слова и анализ знаков.',
+    icon: BookOpenCheck,
+    accent: 'teal'
+  }
 ];
 
 export default function App() {
@@ -136,32 +163,26 @@ export default function App() {
   const currentTaskData = FIPI_GRAMMAR_BANK[activeTaskId] || FIPI_GRAMMAR_BANK.task9;
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
-      {/* Soft ambient decorative glows */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-100/50 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 -right-40 w-96 h-96 bg-purple-100/40 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 left-1/3 w-96 h-96 bg-amber-100/40 rounded-full blur-3xl"></div>
-      </div>
+    <div className="app-shell min-h-screen text-slate-900 flex flex-col justify-between selection:bg-rose-500 selection:text-white">
 
       {/* Top Navbar */}
-      <header className="border-b border-slate-200/80 bg-white/90 backdrop-blur-md sticky top-0 z-40 shadow-xs">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
+      <header className="site-header border-b border-slate-200/80 bg-white/92 backdrop-blur-md sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center shadow-md shadow-indigo-500/20">
-              <GraduationCap className="w-6 h-6 text-white" />
+            <div className="brand-mark">
+              <GraduationCap className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900">
-                  ЕГЭ Грамотность
+                  Русский без пробелов
                 </h1>
-                <span className="hidden sm:inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                  БАНК ФИПИ + ШКОЛКОВО
+                <span className="hidden sm:inline-block meta-chip">
+                  ЕГЭ · 2026
                 </span>
               </div>
               <p className="text-[11px] sm:text-xs text-slate-500">
-                Онлайн-тренажёр тестовой части (Светлая тема)
+                Теория и практика в одном маршруте
               </p>
             </div>
           </div>
@@ -169,7 +190,7 @@ export default function App() {
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-semibold text-slate-700 transition-colors cursor-pointer"
+              className="header-action"
             >
               <Search className="w-4 h-4 text-slate-500" />
               <span className="hidden sm:inline">Поиск</span>
@@ -178,18 +199,43 @@ export default function App() {
 
             <button
               onClick={() => setTheoryOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-xs sm:text-sm font-bold text-indigo-700 transition-all hover:scale-102 active:scale-98 cursor-pointer shadow-2xs"
+              className="header-action header-action-primary"
             >
-              <BookMarked className="w-4 h-4 text-indigo-600" />
-              <span>База правил</span>
-              <span className="hidden sm:inline-block px-1.5 py-0.2 rounded text-[10px] bg-indigo-200/60 text-indigo-900 font-extrabold">№4–21</span>
+              <BookMarked className="w-4 h-4" />
+              <span>Теория</span>
+              <span className="hidden sm:inline-block">№4–21</span>
             </button>
           </div>
         </div>
       </header>
 
       {/* Main Container */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 w-full space-y-6 flex-1">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 w-full space-y-7 flex-1">
+        <section className="intro-panel">
+          <div className="max-w-2xl">
+            <p className="section-kicker">Маршрут подготовки</p>
+            <h2>Готовься к тестовой части <em>с пониманием.</em></h2>
+            <p className="intro-copy">
+              Разбирай правило, сразу закрепляй его в тренажёре и возвращайся к ошибкам,
+              пока ответ не станет уверенным.
+            </p>
+            <div className="flex flex-wrap gap-3 mt-6">
+              <button onClick={() => setTheoryOpen(true)} className="primary-cta">
+                <BookMarked className="w-4 h-4" /> Открыть базу правил <ArrowUpRight className="w-4 h-4" />
+              </button>
+              <button onClick={() => setActiveTaskId('sprint_all')} className="secondary-cta">
+                Начать тренировку
+              </button>
+            </div>
+          </div>
+          <div className="intro-note">
+            <span className="intro-note-line"></span>
+            <p>№4–21</p>
+            <strong>21 тема</strong>
+            <span>в одном спокойном интерфейсе</span>
+          </div>
+        </section>
+
         {/* User Stats and Quick Actions Bar */}
         <StatsBar
           stats={stats}
@@ -206,6 +252,36 @@ export default function App() {
           onOpenMistakes={() => setMistakesOpen(true)}
           onOpenTheory={() => setTheoryOpen(true)}
         />
+
+        <section className="space-y-3">
+          <div className="section-heading">
+            <div>
+              <p className="section-kicker">Сначала теория</p>
+              <h3>Собери целостную картину правил</h3>
+            </div>
+            <button className="text-link" onClick={() => setTheoryOpen(true)}>Вся теория <ArrowUpRight className="w-4 h-4" /></button>
+          </div>
+          <div className="theory-grid">
+            {THEORY_GROUPS.map((group) => {
+              const Icon = group.icon;
+              return (
+                <button
+                  key={group.id}
+                  className={`theory-card theory-card-${group.accent}`}
+                  onClick={() => { setActiveCategory(group.id); setTheoryOpen(true); }}
+                >
+                  <span className="theory-card-icon"><Icon className="w-5 h-5" /></span>
+                  <span className="theory-card-copy">
+                    <span className="theory-card-eyebrow">{group.eyebrow}</span>
+                    <strong>{group.title}</strong>
+                    <span>{group.text}</span>
+                  </span>
+                  <ArrowUpRight className="theory-card-arrow w-4 h-4" />
+                </button>
+              );
+            })}
+          </div>
+        </section>
 
         {/* Category Pills */}
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
@@ -346,7 +422,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200/90 py-6 text-center text-xs text-slate-500 bg-white mt-12 shadow-xs">
+      <footer className="border-t border-slate-200/90 py-6 text-center text-xs text-slate-500 bg-white mt-12">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>
             ЕГЭ Русский язык • Официальный открытый банк заданий ФИПИ + конспекты Школково

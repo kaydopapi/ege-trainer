@@ -3,6 +3,23 @@ import confetti from 'canvas-confetti';
 import { sounds } from '../utils/audio';
 import { Check, X, ArrowRight, Zap, BookOpen, Pause, Play } from 'lucide-react';
 
+const shuffle = (items) => {
+  const result = [...items];
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [result[index], result[randomIndex]] = [result[randomIndex], result[index]];
+  }
+  return result;
+};
+
+const prepareWords = (words) =>
+  shuffle(words).map((word) => ({
+    ...word,
+    // The source bank stores the correct letter first. Shuffle a copy so the
+    // position of the right answer is not predictable in the sprint.
+    options: shuffle(word.options || [])
+  }));
+
 export default function SingleWordTrainer({
   words,
   taskTitle,
@@ -22,7 +39,7 @@ export default function SingleWordTrainer({
   // Initialize and shuffle words
   useEffect(() => {
     if (words && words.length > 0) {
-      setShuffled([...words].sort(() => Math.random() - 0.5));
+      setShuffled(prepareWords(words));
       setCurrentIndex(0);
       setSelectedOption(null);
       setIsAnswered(false);
@@ -43,7 +60,7 @@ export default function SingleWordTrainer({
       setCurrentIndex((prev) => prev + 1);
     } else {
       // Loop with re-shuffled list for continuous endless drill!
-      setShuffled([...words].sort(() => Math.random() - 0.5));
+      setShuffled(prepareWords(words));
       setCurrentIndex(0);
     }
   }, [currentIndex, shuffled.length, words]);
