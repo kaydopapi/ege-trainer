@@ -11,6 +11,7 @@ export default function StatsBar({
   onOpenMockExam,
   onOpenSearch,
   onOpenMistakes,
+  onOpenTheory,
   onStartMegaSprint
 }) {
   const total = stats.correctCount + stats.wrongCount;
@@ -119,11 +120,19 @@ export default function StatsBar({
         </button>
 
         <button
+          onClick={onOpenTheory}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs sm:text-sm shadow-xs transition-all hover:scale-102 active:scale-98 cursor-pointer"
+        >
+          <BookOpen className="w-4 h-4 text-indigo-600" />
+          <span>📚 База правил (№4–21)</span>
+        </button>
+
+        <button
           onClick={onOpenSearch}
           className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm shadow-xs transition-all cursor-pointer"
         >
-          <BookOpen className="w-4 h-4 text-indigo-600" />
-          <span>🔍 Поиск по словарям ФИПИ</span>
+          <Sparkles className="w-4 h-4 text-indigo-600" />
+          <span>🔍 Поиск по словарям</span>
         </button>
 
         <button

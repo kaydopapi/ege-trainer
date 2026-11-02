@@ -178,10 +178,11 @@ export default function App() {
 
             <button
               onClick={() => setTheoryOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-xs sm:text-sm font-bold text-indigo-700 transition-all hover:scale-102 active:scale-98 cursor-pointer"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-xs sm:text-sm font-bold text-indigo-700 transition-all hover:scale-102 active:scale-98 cursor-pointer shadow-2xs"
             >
               <BookMarked className="w-4 h-4 text-indigo-600" />
-              <span className="hidden sm:inline">Шпаргалка</span>
+              <span>База правил</span>
+              <span className="hidden sm:inline-block px-1.5 py-0.2 rounded text-[10px] bg-indigo-200/60 text-indigo-900 font-extrabold">№4–21</span>
             </button>
           </div>
         </div>
@@ -203,6 +204,7 @@ export default function App() {
           onOpenMockExam={() => setMockExamOpen(true)}
           onOpenSearch={() => setSearchOpen(true)}
           onOpenMistakes={() => setMistakesOpen(true)}
+          onOpenTheory={() => setTheoryOpen(true)}
         />
 
         {/* Category Pills */}
@@ -360,6 +362,11 @@ export default function App() {
         isOpen={theoryOpen}
         onClose={() => setTheoryOpen(false)}
         taskData={currentTaskData}
+        allTasksData={FIPI_GRAMMAR_BANK}
+        onSelectTask={(taskId) => {
+          sounds.playClick();
+          setActiveTaskId(taskId);
+        }}
       />
 
       <MockExamModal
