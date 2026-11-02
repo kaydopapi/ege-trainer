@@ -159,6 +159,14 @@ export default function SingleWordTrainer({
   if (!currentWord) return null;
 
   const isCorrect = selectedOption?.toLowerCase() === currentWord.target.toLowerCase();
+  const [displayPrefix, ...displaySuffixParts] = currentWord.word.split('..');
+  const displaySuffix = displaySuffixParts.join('..');
+  // Some Н/НН cards already include the first Н in the visible stem
+  // (`соломен..ый` → `соломенный`). The answer remains `НН`, but only the
+  // missing part should be inserted into the rendered word.
+  const displayTarget = displayPrefix.endsWith(currentWord.target[0])
+    ? currentWord.target.slice(1)
+    : currentWord.target;
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-10 shadow-xl shadow-slate-200/50 relative overflow-hidden space-y-8 animate-in fade-in duration-200">
@@ -200,7 +208,7 @@ export default function SingleWordTrainer({
       {/* Main Single Word Display */}
       <div className="text-center py-6 sm:py-8 space-y-4">
         <div className="inline-flex items-center justify-center flex-wrap gap-1 text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-wide text-slate-900 select-none">
-          <span>{currentWord.prefix}</span>
+          <span>{displayPrefix}</span>
 
           {/* Missing letter slot */}
           <span
@@ -212,10 +220,10 @@ export default function SingleWordTrainer({
                 : 'bg-rose-600 text-white border-rose-500 ring-4 ring-rose-100 scale-105 shadow-md shadow-rose-500/20'
             }`}
           >
-            {isAnswered ? currentWord.target.toUpperCase() : '_'}
+            {isAnswered ? displayTarget.toUpperCase() : '_'}
           </span>
 
-          <span>{currentWord.suffix}</span>
+          <span>{displaySuffix}</span>
         </div>
 
         <p className="text-xs sm:text-sm text-slate-500">
@@ -292,9 +300,9 @@ export default function SingleWordTrainer({
               <div className="font-bold text-base flex items-center gap-2">
                 <span>{isCorrect ? 'Верно:' : 'Ошибка! Правильно:'}</span>
                 <span className="font-mono text-lg uppercase font-black px-2 py-0.5 rounded bg-white border border-slate-200/80 shadow-xs">
-                  {currentWord.prefix}
-                  <span className="underline decoration-2 underline-offset-4 text-emerald-700">{currentWord.target}</span>
-                  {currentWord.suffix}
+                  {displayPrefix}
+                  <span className="underline decoration-2 underline-offset-4 text-emerald-700">{displayTarget}</span>
+                  {displaySuffix}
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans pt-1">
