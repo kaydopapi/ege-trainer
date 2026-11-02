@@ -220,55 +220,48 @@ export default function App() {
           onOpenTheory={() => {}}
         />
 
-        {/* Category Pills */}
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer ${
-                activeCategory === cat.id
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
-                  : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200 shadow-2xs hover:bg-slate-50'
-              }`}
-            >
-              {cat.title}
-            </button>
-          ))}
-        </div>
+        <div className="study-layout">
+          <aside className="study-sidebar">
+            <div className="study-sidebar-label">Разделы</div>
+            <div className="study-sections">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`study-section ${activeCategory === cat.id ? 'study-section-active' : ''}`}
+                >
+                  <span>{cat.title.split(' · ')[0]}</span>
+                  <small>{cat.id === 'all' ? '№4–21' : cat.title.split(' · ')[1]}</small>
+                </button>
+              ))}
+            </div>
+            <div className="study-sidebar-label study-sidebar-label-spaced">Задания</div>
+            <nav className="study-task-list">
+              {filteredTasks.map((t) => {
+                const isActive = activeTaskId === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => { sounds.playClick(); setActiveTaskId(t.id); }}
+                    className={`study-task ${isActive ? 'study-task-active' : ''}`}
+                  >
+                    <span>{t.num}</span>
+                    <strong>{t.title}</strong>
+                  </button>
+                );
+              })}
+            </nav>
+          </aside>
 
-        {/* Task Horizontal Scroller */}
-        <div className="flex overflow-x-auto pb-2 gap-2 scrollbar-none">
-          {filteredTasks.map((t) => {
-            const isActive = activeTaskId === t.id;
-            return (
-              <button
-                key={t.id}
-                onClick={() => {
-                  sounds.playClick();
-                  setActiveTaskId(t.id);
-                }}
-                className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl border-2 transition-all shrink-0 cursor-pointer ${
-                  isActive
-                    ? 'bg-white border-indigo-500 text-indigo-900 shadow-md shadow-indigo-500/10 scale-102 ring-2 ring-indigo-100'
-                    : 'bg-white border-slate-200/90 text-slate-600 hover:text-slate-900 hover:border-slate-300 shadow-2xs'
-                }`}
-              >
-                  <span className={`task-number ${isActive ? 'task-number-active' : ''} ${
-                  isActive
-                    ? ''
-                    : ''
-                }`}>
-                  {t.num}
-                </span>
-                <span className="font-bold text-xs sm:text-sm">{t.title}</span>
-              </button>
-            );
-          })}
-        </div>
+          <section className="study-stage">
+            <div className="stage-heading">
+              <div>
+                <p className="section-kicker">Тренировка</p>
+                <h2>{TASK_LIST.find((task) => task.id === activeTaskId)?.title || 'Выберите задание'}</h2>
+              </div>
+              <button className="stage-theory-link" onClick={() => setTheoryOpen(true)}>Открыть теорию →</button>
+            </div>
 
-        {/* Active Task Trainer */}
-        <div className="min-h-[480px]">
           {activeTaskId === 'sprint_all' && (
             <div className="space-y-4">
               <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
@@ -349,6 +342,7 @@ export default function App() {
               onOpenTheory={() => setTheoryOpen(true)}
             />
           )}
+          </section>
         </div>
       </main>
 
