@@ -165,7 +165,7 @@ export default function SingleWordTrainer({
   // Н/НН cards use the semantic answer (`НН`), while the source stem already
   // contains its first Н (`соломен..ый`). Move that Н into the answer slot so
   // the rendered word is `соломе[НН]ый`, never `соломен[НН]ый`.
-  const sharesLeadingLetter = currentWord.target.length > 1
+  const sharesLeadingLetter = currentWord.id?.startsWith('w15-')
     && rawDisplayPrefix.endsWith(currentWord.target[0]);
   const displayPrefix = sharesLeadingLetter
     ? rawDisplayPrefix.slice(0, -1)
