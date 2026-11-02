@@ -169,7 +169,7 @@ export default function App() {
 
       {/* Top Navbar */}
       <header className="site-header border-b border-slate-200/80 bg-white/92 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between">
+        <div className="site-container px-5 sm:px-8 h-[72px] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="brand-mark">
               <GraduationCap className="w-5 h-5" />
@@ -240,7 +240,7 @@ export default function App() {
       </header>
 
       {/* Main Container */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-5 w-full space-y-4 flex-1">
+      <main className="site-container px-5 sm:px-8 py-5 w-full space-y-4 flex-1">
         {route === 'dashboard' && <StatsBar
           stats={stats}
           mistakesCount={mistakesList.length}
@@ -467,7 +467,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="border-t border-slate-200/90 py-6 text-center text-xs text-slate-500 bg-white mt-12">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="site-container px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>
             ЕГЭ Русский язык • Официальный открытый банк заданий ФИПИ + конспекты Школково
           </span>
