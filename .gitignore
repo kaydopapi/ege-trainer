@@ -1,0 +1,4 @@
+node_modules
+dist
+data/raw_pdf
+.DS_Store
