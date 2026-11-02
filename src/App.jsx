@@ -245,6 +245,7 @@ export default function App() {
           onToggleSound={handleToggleSound}
           onStartMegaSprint={() => {
             sounds.playClick();
+                setActiveCategory('all');
             setActiveTaskId('sprint_all');
           }}
           onOpenMockExam={() => setMockExamOpen(true)}
