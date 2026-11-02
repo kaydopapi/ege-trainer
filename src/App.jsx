@@ -23,31 +23,31 @@ import { GraduationCap, BookMarked, Search, Layers, FileText, ArrowUpRight, Book
 
 const CATEGORIES = [
   { id: 'all', title: 'Все задания' },
-  { id: 'norms', title: '🗣️ Нормы языка (№4–8)' },
-  { id: 'orthography', title: '✍️ Орфография (№9–15)' },
-  { id: 'punctuation', title: '📍 Пунктуация (№16–21)' }
+  { id: 'norms', title: 'Нормы языка · №4–8' },
+  { id: 'orthography', title: 'Орфография · №9–15' },
+  { id: 'punctuation', title: 'Пунктуация · №16–21' }
 ];
 
 const TASK_LIST = [
-  { id: 'sprint_all', category: 'all', num: '⚡', title: 'Спринт по словам', color: 'from-amber-500 to-orange-500' },
-  { id: 'task4', category: 'norms', num: '№4', title: 'Ударения', color: 'from-amber-500 to-orange-500' },
-  { id: 'task5', category: 'norms', num: '№5', title: 'Паронимы', color: 'from-sky-500 to-blue-500' },
-  { id: 'task6', category: 'norms', num: '№6', title: 'Лексика', color: 'from-violet-500 to-purple-500' },
-  { id: 'task7', category: 'norms', num: '№7', title: 'Морфология', color: 'from-emerald-500 to-teal-500' },
-  { id: 'task8', category: 'norms', num: '№8', title: 'Синтаксис', color: 'from-rose-500 to-pink-500' },
-  { id: 'task9', category: 'orthography', num: '№9', title: 'Корни', color: 'from-indigo-500 to-cyan-500' },
-  { id: 'task10', category: 'orthography', num: '№10', title: 'Приставки', color: 'from-blue-500 to-indigo-500' },
-  { id: 'task11', category: 'orthography', num: '№11', title: 'Суффиксы', color: 'from-cyan-500 to-teal-500' },
-  { id: 'task12', category: 'orthography', num: '№12', title: 'Окончания', color: 'from-teal-500 to-emerald-500' },
-  { id: 'task13', category: 'orthography', num: '№13', title: 'НЕ / НИ', color: 'from-amber-500 to-yellow-500' },
-  { id: 'task14', category: 'orthography', num: '№14', title: 'Слитно / Дефис', color: 'from-orange-500 to-rose-500' },
-  { id: 'task15', category: 'orthography', num: '№15', title: 'Н и НН', color: 'from-purple-500 to-pink-500' },
-  { id: 'task16', category: 'punctuation', num: '№16', title: 'ССП', color: 'from-rose-500 to-red-500' },
-  { id: 'task17', category: 'punctuation', num: '№17', title: 'Обороты', color: 'from-red-500 to-amber-500' },
-  { id: 'task18', category: 'punctuation', num: '№18', title: 'Вводные слова', color: 'from-orange-500 to-emerald-500' },
-  { id: 'task19', category: 'punctuation', num: '№19', title: 'СПП', color: 'from-emerald-500 to-teal-500' },
-  { id: 'task20', category: 'punctuation', num: '№20', title: 'Стык союзов', color: 'from-teal-500 to-blue-500' },
-  { id: 'task21', category: 'punctuation', num: '№21', title: 'Анализ знаков', color: 'from-blue-500 to-indigo-500' }
+  { id: 'sprint_all', category: 'all', num: 'БЛИЦ', title: 'Спринт по словам', color: '' },
+  { id: 'task4', category: 'norms', num: '№4', title: 'Ударения', color: '' },
+  { id: 'task5', category: 'norms', num: '№5', title: 'Паронимы', color: '' },
+  { id: 'task6', category: 'norms', num: '№6', title: 'Лексика', color: '' },
+  { id: 'task7', category: 'norms', num: '№7', title: 'Морфология', color: '' },
+  { id: 'task8', category: 'norms', num: '№8', title: 'Синтаксис', color: '' },
+  { id: 'task9', category: 'orthography', num: '№9', title: 'Корни', color: '' },
+  { id: 'task10', category: 'orthography', num: '№10', title: 'Приставки', color: '' },
+  { id: 'task11', category: 'orthography', num: '№11', title: 'Суффиксы', color: '' },
+  { id: 'task12', category: 'orthography', num: '№12', title: 'Окончания', color: '' },
+  { id: 'task13', category: 'orthography', num: '№13', title: 'НЕ / НИ', color: '' },
+  { id: 'task14', category: 'orthography', num: '№14', title: 'Слитно / Дефис', color: '' },
+  { id: 'task15', category: 'orthography', num: '№15', title: 'Н и НН', color: '' },
+  { id: 'task16', category: 'punctuation', num: '№16', title: 'ССП', color: '' },
+  { id: 'task17', category: 'punctuation', num: '№17', title: 'Обороты', color: '' },
+  { id: 'task18', category: 'punctuation', num: '№18', title: 'Вводные слова', color: '' },
+  { id: 'task19', category: 'punctuation', num: '№19', title: 'СПП', color: '' },
+  { id: 'task20', category: 'punctuation', num: '№20', title: 'Стык союзов', color: '' },
+  { id: 'task21', category: 'punctuation', num: '№21', title: 'Анализ знаков', color: '' }
 ];
 
 const THEORY_GROUPS = [
@@ -180,7 +180,7 @@ export default function App() {
   const currentTaskData = FIPI_GRAMMAR_BANK[activeTaskId] || FIPI_GRAMMAR_BANK.task9;
 
   return (
-    <div className="app-shell min-h-screen text-slate-900 flex flex-col justify-between selection:bg-rose-500 selection:text-white">
+    <div className="app-shell min-h-screen text-slate-900 flex flex-col justify-between selection:bg-[#a6504d] selection:text-white">
 
       {/* Top Navbar */}
       <header className="site-header border-b border-slate-200/80 bg-white/92 backdrop-blur-md sticky top-0 z-40">
@@ -238,10 +238,10 @@ export default function App() {
             </p>
             <div className="flex flex-wrap gap-3 mt-6">
               <button onClick={() => setTheoryOpen(true)} className="primary-cta">
-                <BookMarked className="w-4 h-4" /> Открыть базу правил <ArrowUpRight className="w-4 h-4" />
+                <BookMarked className="w-4 h-4" /> Открыть теорию
               </button>
-              <button onClick={() => setActiveTaskId('sprint_all')} className="secondary-cta">
-                Начать тренировку
+              <button onClick={() => { setActiveCategory('all'); setActiveTaskId('sprint_all'); }} className="secondary-cta">
+                Начать с блица
               </button>
             </div>
           </div>
@@ -339,10 +339,10 @@ export default function App() {
                     : 'bg-white border-slate-200/90 text-slate-600 hover:text-slate-900 hover:border-slate-300 shadow-2xs'
                 }`}
               >
-                <span className={`w-7 h-7 rounded-xl flex items-center justify-center font-black text-xs ${
+                  <span className={`task-number ${isActive ? 'task-number-active' : ''} ${
                   isActive
-                    ? `bg-gradient-to-br ${t.color} text-white shadow-sm`
-                    : 'bg-slate-100 text-slate-600'
+                    ? ''
+                    : ''
                 }`}>
                   {t.num}
                 </span>
