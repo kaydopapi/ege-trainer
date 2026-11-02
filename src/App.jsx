@@ -77,6 +77,17 @@ const THEORY_GROUPS = [
   }
 ];
 
+// Keep this array stable across App re-renders. If it is created inline in
+// JSX, every answer updates stats, retriggers SingleWordTrainer's reset effect,
+// and the sprint jumps back to word 1.
+const SPRINT_WORDS = [
+  ...ORTHOGRAPHY_WORDS.task9,
+  ...ORTHOGRAPHY_WORDS.task10,
+  ...ORTHOGRAPHY_WORDS.task11,
+  ...ORTHOGRAPHY_WORDS.task12,
+  ...ORTHOGRAPHY_WORDS.task15
+];
+
 export default function App() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeTaskId, setActiveTaskId] = useState('sprint_all'); // Default directly to Sprint as user requested!
@@ -347,13 +358,7 @@ export default function App() {
                 </div>
               </div>
               <SingleWordTrainer
-                words={[
-                  ...ORTHOGRAPHY_WORDS.task9,
-                  ...ORTHOGRAPHY_WORDS.task10,
-                  ...ORTHOGRAPHY_WORDS.task11,
-                  ...ORTHOGRAPHY_WORDS.task12,
-                  ...ORTHOGRAPHY_WORDS.task15
-                ]}
+                words={SPRINT_WORDS}
                 taskTitle="Сквозной спринт по всем словам"
                 taskId="sprint_all"
                 onResult={(res, payload) => handleResult(res, payload)}
