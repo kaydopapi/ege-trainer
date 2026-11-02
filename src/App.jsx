@@ -28,6 +28,12 @@ const CATEGORIES = [
   { id: 'punctuation', title: 'Пунктуация · №16–21' }
 ];
 
+const THEORY_TASK_BY_GROUP = {
+  norms: 'task4',
+  orthography: 'task9',
+  punctuation: 'task16'
+};
+
 const TASK_LIST = [
   { id: 'sprint_all', category: 'all', num: 'БЛИЦ', title: 'Спринт по словам', color: '' },
   { id: 'task4', category: 'norms', num: '№4', title: 'Ударения', color: '' },
@@ -62,6 +68,7 @@ const SPRINT_WORDS = [
 ];
 
 export default function App() {
+  const [route, setRoute] = useState(() => window.location.hash.replace('#', '') || 'dashboard');
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeTaskId, setActiveTaskId] = useState('sprint_all'); // Default directly to Sprint as user requested!
   const [theoryOpen, setTheoryOpen] = useState(false);
@@ -76,6 +83,17 @@ export default function App() {
   useEffect(() => {
     saveUserStats(stats);
   }, [stats]);
+
+  useEffect(() => {
+    const onHashChange = () => setRoute(window.location.hash.replace('#', '') || 'dashboard');
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  const navigate = (nextRoute) => {
+    window.location.hash = nextRoute;
+    setRoute(nextRoute);
+  };
 
   // Keyboard shortcut: / or Ctrl+K opens search
   useEffect(() => {
@@ -172,6 +190,22 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-2.5">
+            <nav className="hidden lg:flex items-center gap-1 mr-2">
+              {[
+                ['dashboard', 'Кабинет'],
+                ['practice', 'Практика'],
+                ['theory', 'Теория'],
+                ['mistakes', 'Ошибки']
+              ].map(([id, label]) => (
+                <button
+                  key={id}
+                  onClick={() => navigate(id)}
+                  className={`header-nav-link ${route === id ? 'header-nav-link-active' : ''}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </nav>
             <button
               onClick={() => { setActiveCategory('all'); setActiveTaskId('sprint_all'); }}
               className="header-action header-action-primary hidden sm:flex"
@@ -194,7 +228,7 @@ export default function App() {
             </button>
 
             <button
-              onClick={() => setTheoryOpen(true)}
+              onClick={() => navigate('theory')}
               className="header-action header-action-primary"
             >
               <BookMarked className="w-4 h-4" />
@@ -207,7 +241,7 @@ export default function App() {
 
       {/* Main Container */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-5 w-full space-y-4 flex-1">
-        <StatsBar
+        {route === 'dashboard' && <StatsBar
           stats={stats}
           mistakesCount={mistakesList.length}
           onReset={handleResetStats}
@@ -218,8 +252,10 @@ export default function App() {
           onOpenSearch={() => {}}
           onOpenMistakes={() => {}}
           onOpenTheory={() => {}}
-        />
+        />}
 
+        {route === 'dashboard' ? (
+        <>
         <div className="study-layout">
           <aside className="study-sidebar">
             <div className="study-sidebar-label">Разделы</div>
@@ -344,6 +380,89 @@ export default function App() {
           )}
           </section>
         </div>
+        </>
+        ) : route === 'practice' ? (
+          <section className="page-section">
+            <div className="page-heading">
+              <p className="section-kicker">Каталог</p>
+              <h2>Практика по заданиям</h2>
+              <p>Выберите тему и переходите сразу к тренировке. Полная база заданий подключается через backend.</p>
+            </div>
+            <div className="catalog-grid">
+              {CATEGORIES.slice(1).map((category) => (
+                <div className="catalog-section" key={category.id}>
+                  <div className="catalog-section-header">
+                    <h3>{category.title}</h3>
+                    <span>{TASK_LIST.filter((task) => task.category === category.id).length} тем</span>
+                  </div>
+                  <div className="catalog-list">
+                    {TASK_LIST.filter((task) => task.category === category.id).map((task) => (
+                      <button
+                        key={task.id}
+                        className="catalog-item"
+                        onClick={() => { setActiveTaskId(task.id); setActiveCategory(category.id); navigate('dashboard'); }}
+                      >
+                        <span>{task.num}</span>
+                        <strong>{task.title}</strong>
+                        <small>Открыть →</small>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : route === 'theory' ? (
+          <section className="page-section">
+            <div className="page-heading">
+              <p className="section-kicker">Справочник</p>
+              <h2>Теория ЕГЭ</h2>
+              <p>Правила, алгоритмы и исключения по заданиям №4–21. Выберите тему в базе правил.</p>
+            </div>
+            <div className="theory-page-grid">
+              {CATEGORIES.slice(1).map((category) => (
+                <button
+                  key={category.id}
+                  className="theory-page-link"
+                  onClick={() => {
+                    setActiveCategory(category.id);
+                    setActiveTaskId(THEORY_TASK_BY_GROUP[category.id]);
+                    setTheoryOpen(true);
+                  }}
+                >
+                  <span>{category.title}</span>
+                  <strong>Открыть базу правил →</strong>
+                </button>
+              ))}
+            </div>
+          </section>
+        ) : route === 'mistakes' ? (
+          <section className="page-section">
+            <div className="page-heading">
+              <p className="section-kicker">Повторение</p>
+              <h2>Работа над ошибками</h2>
+              <p>Все задания, в которых вы ошиблись, собраны в одном месте.</p>
+            </div>
+            <div className="empty-page-card">
+              <strong>{mistakesList.length ? `${mistakesList.length} ошибок ждут повторения` : 'Пока ошибок нет'}</strong>
+              <p>{mistakesList.length ? 'Откройте тетрадь, чтобы разобрать каждое задание.' : 'Ошибки появятся здесь после первой неверной попытки.'}</p>
+              <button className="primary-cta" onClick={() => setMistakesOpen(true)}>Открыть тетрадь</button>
+            </div>
+          </section>
+        ) : (
+          <section className="page-section">
+            <div className="page-heading">
+              <p className="section-kicker">Экзамен</p>
+              <h2>Пробный вариант</h2>
+              <p>Соберите полноценную попытку по заданиям тестовой части.</p>
+            </div>
+            <div className="empty-page-card">
+              <strong>12 заданий · 30 минут</strong>
+              <p>Результат и разбор ошибок появятся после завершения попытки.</p>
+              <button className="primary-cta" onClick={() => setMockExamOpen(true)}>Начать пробный вариант</button>
+            </div>
+          </section>
+        )}
       </main>
 
       {/* Footer */}
