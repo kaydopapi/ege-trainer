@@ -37,6 +37,7 @@ export default function SingleWordTrainer({
   const [isPaused, setIsPaused] = useState(false);
 
   const timerRef = useRef(null);
+  const nextButtonRef = useRef(null);
 
   // Initialize and shuffle words
   useEffect(() => {
@@ -167,6 +168,17 @@ export default function SingleWordTrainer({
   const displayTarget = displayPrefix.endsWith(currentWord.target[0])
     ? currentWord.target.slice(1)
     : currentWord.target;
+
+  useEffect(() => {
+    if (!isAnswered || !nextButtonRef.current) return;
+    const frame = requestAnimationFrame(() => {
+      nextButtonRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [isAnswered]);
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-10 shadow-xl shadow-slate-200/50 relative overflow-hidden space-y-8 animate-in fade-in duration-200">
@@ -313,6 +325,7 @@ export default function SingleWordTrainer({
 
           <div className="flex justify-center pt-2">
             <button
+              ref={nextButtonRef}
               onClick={handleNext}
               className="flex items-center gap-2 px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-indigo-600/25 transition-all hover:scale-102 active:scale-98 cursor-pointer"
             >
