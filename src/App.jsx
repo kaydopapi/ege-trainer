@@ -77,6 +77,12 @@ const THEORY_GROUPS = [
   }
 ];
 
+const THEORY_TASK_BY_GROUP = {
+  norms: 'task4',
+  orthography: 'task9',
+  punctuation: 'task16'
+};
+
 // Keep this array stable across App re-renders. If it is created inline in
 // JSX, every answer updates stats, retriggers SingleWordTrainer's reset effect,
 // and the sprint jumps back to word 1.
@@ -280,7 +286,11 @@ export default function App() {
                 <button
                   key={group.id}
                   className={`theory-card theory-card-${group.accent}`}
-                  onClick={() => { setActiveCategory(group.id); setTheoryOpen(true); }}
+                  onClick={() => {
+                    setActiveCategory(group.id);
+                    setActiveTaskId(THEORY_TASK_BY_GROUP[group.id]);
+                    setTheoryOpen(true);
+                  }}
                 >
                   <span className="theory-card-icon"><Icon className="w-5 h-5" /></span>
                   <span className="theory-card-copy">
