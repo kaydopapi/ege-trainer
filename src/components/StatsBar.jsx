@@ -101,44 +101,6 @@ export default function StatsBar({
         </div>
       </div>
 
-      {/* Primary actions */}
-      <div className="workspace-actions">
-        <button
-          onClick={onStartMegaSprint}
-          className="workspace-action workspace-action-primary"
-        >
-          <Sparkles className="w-4 h-4" />
-          <span>Начать блиц</span>
-        </button>
-
-        <button
-          onClick={onOpenMockExam}
-          className="workspace-action"
-        >
-          <FileText className="w-4 h-4" />
-          <span>Пробный вариант</span>
-        </button>
-
-        <button
-          onClick={onOpenSearch}
-          className="workspace-action workspace-action-quiet"
-        >
-          <span>Поиск по словарю</span>
-        </button>
-
-        <button
-          onClick={onOpenMistakes}
-          className="workspace-action workspace-action-quiet"
-        >
-          <AlertCircle className="w-4 h-4 text-rose-500" />
-          <span>Ошибки</span>
-          {mistakesCount > 0 && (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700 border border-rose-200">
-              {mistakesCount}
-            </span>
-          )}
-        </button>
-      </div>
     </div>
   );
 }

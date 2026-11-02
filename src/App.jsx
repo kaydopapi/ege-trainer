@@ -173,6 +173,18 @@ export default function App() {
 
           <div className="flex items-center gap-2.5">
             <button
+              onClick={() => { setActiveCategory('all'); setActiveTaskId('sprint_all'); }}
+              className="header-action header-action-primary hidden sm:flex"
+            >
+              <span>Блиц</span>
+            </button>
+            <button
+              onClick={() => setMockExamOpen(true)}
+              className="header-action hidden md:flex"
+            >
+              <span>Пробный вариант</span>
+            </button>
+            <button
               onClick={() => setSearchOpen(true)}
               className="header-action"
             >
@@ -195,29 +207,17 @@ export default function App() {
 
       {/* Main Container */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-5 w-full space-y-4 flex-1">
-        <div className="workspace-heading">
-          <div>
-            <p className="section-kicker">Рабочий стол</p>
-            <h2>Продолжить подготовку</h2>
-          </div>
-          <span className="workspace-caption">Тестовая часть · задания №4–21</span>
-        </div>
-
         <StatsBar
           stats={stats}
           mistakesCount={mistakesList.length}
           onReset={handleResetStats}
           soundEnabled={soundEnabled}
           onToggleSound={handleToggleSound}
-          onStartMegaSprint={() => {
-            sounds.playClick();
-                setActiveCategory('all');
-            setActiveTaskId('sprint_all');
-          }}
-          onOpenMockExam={() => setMockExamOpen(true)}
-          onOpenSearch={() => setSearchOpen(true)}
-          onOpenMistakes={() => setMistakesOpen(true)}
-          onOpenTheory={() => setTheoryOpen(true)}
+          onStartMegaSprint={() => {}}
+          onOpenMockExam={() => {}}
+          onOpenSearch={() => {}}
+          onOpenMistakes={() => {}}
+          onOpenTheory={() => {}}
         />
 
         {/* Category Pills */}
