@@ -19,7 +19,7 @@ import MockExamModal from './components/MockExamModal';
 import DictionarySearchModal from './components/DictionarySearchModal';
 import MistakesNotebook from './components/MistakesNotebook';
 
-import { GraduationCap, BookMarked, Search, Layers, FileText, ArrowUpRight, BookOpenCheck, PenLine, MessageCircle } from 'lucide-react';
+import { GraduationCap, BookMarked, Search, Layers, FileText } from 'lucide-react';
 
 const CATEGORIES = [
   { id: 'all', title: 'Все задания' },
@@ -49,39 +49,6 @@ const TASK_LIST = [
   { id: 'task20', category: 'punctuation', num: '№20', title: 'Стык союзов', color: '' },
   { id: 'task21', category: 'punctuation', num: '№21', title: 'Анализ знаков', color: '' }
 ];
-
-const THEORY_GROUPS = [
-  {
-    id: 'norms',
-    eyebrow: '№4–8',
-    title: 'Нормы языка',
-    text: 'Ударения, паронимы, лексика, формы слов и грамматические ошибки.',
-    icon: MessageCircle,
-    accent: 'rose'
-  },
-  {
-    id: 'orthography',
-    eyebrow: '№9–15',
-    title: 'Орфография',
-    text: 'Корни, приставки, суффиксы, НЕ/НИ и написание Н и НН.',
-    icon: PenLine,
-    accent: 'amber'
-  },
-  {
-    id: 'punctuation',
-    eyebrow: '№16–21',
-    title: 'Пунктуация',
-    text: 'Обороты, сложные предложения, вводные слова и анализ знаков.',
-    icon: BookOpenCheck,
-    accent: 'teal'
-  }
-];
-
-const THEORY_TASK_BY_GROUP = {
-  norms: 'task4',
-  orthography: 'task9',
-  punctuation: 'task16'
-};
 
 // Keep this array stable across App re-renders. If it is created inline in
 // JSX, every answer updates stats, retriggers SingleWordTrainer's reset effect,
@@ -227,33 +194,15 @@ export default function App() {
       </header>
 
       {/* Main Container */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 w-full space-y-7 flex-1">
-        <section className="intro-panel">
-          <div className="max-w-2xl">
-            <p className="section-kicker">Маршрут подготовки</p>
-            <h2>Готовься к тестовой части <em>с пониманием.</em></h2>
-            <p className="intro-copy">
-              Разбирай правило, сразу закрепляй его в тренажёре и возвращайся к ошибкам,
-              пока ответ не станет уверенным.
-            </p>
-            <div className="flex flex-wrap gap-3 mt-6">
-              <button onClick={() => setTheoryOpen(true)} className="primary-cta">
-                <BookMarked className="w-4 h-4" /> Открыть теорию
-              </button>
-              <button onClick={() => { setActiveCategory('all'); setActiveTaskId('sprint_all'); }} className="secondary-cta">
-                Начать с блица
-              </button>
-            </div>
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-5 w-full space-y-4 flex-1">
+        <div className="workspace-heading">
+          <div>
+            <p className="section-kicker">Рабочий стол</p>
+            <h2>Продолжить подготовку</h2>
           </div>
-          <div className="intro-note">
-            <span className="intro-note-line"></span>
-            <p>№4–21</p>
-            <strong>21 тема</strong>
-            <span>в одном спокойном интерфейсе</span>
-          </div>
-        </section>
+          <span className="workspace-caption">Тестовая часть · задания №4–21</span>
+        </div>
 
-        {/* User Stats and Quick Actions Bar */}
         <StatsBar
           stats={stats}
           mistakesCount={mistakesList.length}
@@ -270,40 +219,6 @@ export default function App() {
           onOpenMistakes={() => setMistakesOpen(true)}
           onOpenTheory={() => setTheoryOpen(true)}
         />
-
-        <section className="space-y-3">
-          <div className="section-heading">
-            <div>
-              <p className="section-kicker">Сначала теория</p>
-              <h3>Собери целостную картину правил</h3>
-            </div>
-            <button className="text-link" onClick={() => setTheoryOpen(true)}>Вся теория <ArrowUpRight className="w-4 h-4" /></button>
-          </div>
-          <div className="theory-grid">
-            {THEORY_GROUPS.map((group) => {
-              const Icon = group.icon;
-              return (
-                <button
-                  key={group.id}
-                  className={`theory-card theory-card-${group.accent}`}
-                  onClick={() => {
-                    setActiveCategory(group.id);
-                    setActiveTaskId(THEORY_TASK_BY_GROUP[group.id]);
-                    setTheoryOpen(true);
-                  }}
-                >
-                  <span className="theory-card-icon"><Icon className="w-5 h-5" /></span>
-                  <span className="theory-card-copy">
-                    <span className="theory-card-eyebrow">{group.eyebrow}</span>
-                    <strong>{group.title}</strong>
-                    <span>{group.text}</span>
-                  </span>
-                  <ArrowUpRight className="theory-card-arrow w-4 h-4" />
-                </button>
-              );
-            })}
-          </div>
-        </section>
 
         {/* Category Pills */}
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">

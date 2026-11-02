@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Flame, CheckCircle2, XCircle, Volume2, VolumeX, Sparkles, BookOpen, AlertCircle, FileText } from 'lucide-react';
+import { Award, Flame, CheckCircle2, Volume2, VolumeX, Sparkles, AlertCircle, FileText } from 'lucide-react';
 import { calculateLevel } from '../utils/storage';
 
 export default function StatsBar({
@@ -19,12 +19,12 @@ export default function StatsBar({
   const levelInfo = calculateLevel(stats.xp);
 
   return (
-    <div className="space-y-3.5">
+    <div className="space-y-3">
       {/* Upper bar: Stats & Level */}
-      <div className="p-4 sm:p-5 rounded-3xl bg-white border border-slate-200/90 shadow-md shadow-slate-200/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-3.5 sm:p-4 rounded-xl bg-white border border-slate-200/90 flex flex-col md:flex-row md:items-center justify-between gap-3">
         {/* Left: Level badge & Progress */}
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center font-black text-xl text-white shadow-md shadow-orange-500/25 shrink-0">
+          <div className="w-10 h-10 rounded-md bg-[#2b2b33] flex items-center justify-center font-black text-lg text-white shrink-0">
             {levelInfo.level}
           </div>
           <div className="space-y-1">
@@ -46,7 +46,7 @@ export default function StatsBar({
         {/* Center: Live Metrics */}
         <div className="flex items-center gap-4 sm:gap-6">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-amber-50 text-amber-600 border border-amber-200/70">
+              <div className="p-1.5 rounded-md bg-[#f8efd9] text-[#9a6a24] border border-[#ead9ad]">
               <Flame className="w-5 h-5 animate-pulse" />
             </div>
             <div>
@@ -58,7 +58,7 @@ export default function StatsBar({
           <div className="h-8 w-px bg-slate-200"></div>
 
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/70">
+              <div className="p-1.5 rounded-md bg-[#e1f0ed] text-[#397b72] border border-[#c4e0da]">
               <CheckCircle2 className="w-5 h-5" />
             </div>
             <div>
@@ -70,7 +70,7 @@ export default function StatsBar({
           <div className="h-8 w-px bg-slate-200"></div>
 
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200/70">
+              <div className="p-1.5 rounded-md bg-[#f9e9e6] text-[#a6504d] border border-[#f0d4cf]">
               <Award className="w-5 h-5" />
             </div>
             <div>
@@ -85,7 +85,7 @@ export default function StatsBar({
           <button
             onClick={onToggleSound}
             title={soundEnabled ? 'Выключить звук' : 'Включить звук'}
-            className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer border border-slate-200"
+            className="p-2 rounded-md bg-[#f4f2ef] hover:bg-[#ece9e5] text-slate-600 hover:text-slate-900 transition-colors cursor-pointer border border-slate-200"
           >
             {soundEnabled ? <Volume2 className="w-4 h-4 text-indigo-600" /> : <VolumeX className="w-4 h-4 text-slate-400" />}
           </button>
@@ -101,46 +101,37 @@ export default function StatsBar({
         </div>
       </div>
 
-      {/* Action Shortcut Pills */}
-      <div className="flex flex-wrap items-center gap-2.5">
+      {/* Primary actions */}
+      <div className="workspace-actions">
         <button
           onClick={onStartMegaSprint}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs sm:text-sm shadow-md shadow-orange-500/20 transition-all hover:scale-102 active:scale-98 cursor-pointer"
+          className="workspace-action workspace-action-primary"
         >
-          <Sparkles className="w-4 h-4 text-amber-100" />
-          <span>⚡ Спринт по словам (Вставь букву)</span>
+          <Sparkles className="w-4 h-4" />
+          <span>Начать блиц</span>
         </button>
 
         <button
           onClick={onOpenMockExam}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-indigo-600/20 transition-all hover:scale-102 active:scale-98 cursor-pointer"
+          className="workspace-action"
         >
           <FileText className="w-4 h-4" />
-          <span>📝 Пробный вариант (Тест)</span>
-        </button>
-
-        <button
-          onClick={onOpenTheory}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-bold text-xs sm:text-sm shadow-xs transition-all hover:scale-102 active:scale-98 cursor-pointer"
-        >
-          <BookOpen className="w-4 h-4 text-indigo-600" />
-          <span>📚 База правил (№4–21)</span>
+          <span>Пробный вариант</span>
         </button>
 
         <button
           onClick={onOpenSearch}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm shadow-xs transition-all cursor-pointer"
+          className="workspace-action workspace-action-quiet"
         >
-          <Sparkles className="w-4 h-4 text-indigo-600" />
-          <span>🔍 Поиск по словарям</span>
+          <span>Поиск по словарю</span>
         </button>
 
         <button
           onClick={onOpenMistakes}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white hover:bg-rose-50/60 border border-slate-200 text-slate-700 hover:text-rose-700 font-semibold text-xs sm:text-sm shadow-xs transition-all cursor-pointer"
+          className="workspace-action workspace-action-quiet"
         >
           <AlertCircle className="w-4 h-4 text-rose-500" />
-          <span>Тетрадь ошибок</span>
+          <span>Ошибки</span>
           {mistakesCount > 0 && (
             <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700 border border-rose-200">
               {mistakesCount}
