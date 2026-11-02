@@ -160,14 +160,17 @@ export default function SingleWordTrainer({
   if (!currentWord) return null;
 
   const isCorrect = selectedOption?.toLowerCase() === currentWord.target.toLowerCase();
-  const [displayPrefix, ...displaySuffixParts] = currentWord.word.split('..');
+  const [rawDisplayPrefix, ...displaySuffixParts] = currentWord.word.split('..');
   const displaySuffix = displaySuffixParts.join('..');
-  // Some Н/НН cards already include the first Н in the visible stem
-  // (`соломен..ый` → `соломенный`). The answer remains `НН`, but only the
-  // missing part should be inserted into the rendered word.
-  const displayTarget = displayPrefix.endsWith(currentWord.target[0])
-    ? currentWord.target.slice(1)
-    : currentWord.target;
+  // Н/НН cards use the semantic answer (`НН`), while the source stem already
+  // contains its first Н (`соломен..ый`). Move that Н into the answer slot so
+  // the rendered word is `соломе[НН]ый`, never `соломен[НН]ый`.
+  const sharesLeadingLetter = currentWord.target.length > 1
+    && rawDisplayPrefix.endsWith(currentWord.target[0]);
+  const displayPrefix = sharesLeadingLetter
+    ? rawDisplayPrefix.slice(0, -1)
+    : rawDisplayPrefix;
+  const displayTarget = currentWord.target;
 
   useEffect(() => {
     if (!isAnswered || !nextButtonRef.current) return;
