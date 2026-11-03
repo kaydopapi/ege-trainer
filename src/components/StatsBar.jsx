@@ -44,7 +44,7 @@ export default function StatsBar({
         </div>
 
         {/* Center: Live Metrics */}
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="stats-metrics flex items-center gap-4 sm:gap-6">
           <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-md bg-[#f8efd9] text-[#9a6a24] border border-[#ead9ad]">
               <Flame className="w-5 h-5 animate-pulse" />
